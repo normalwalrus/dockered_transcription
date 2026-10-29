@@ -1,0 +1,37 @@
+services:
+  whisper:
+    build: .
+    image: whisper-turbo-api:latest
+    container_name: whisper-turbo
+    env_file: .env
+    ports:
+      - "${PORT:-8000}:8000"
+    volumes:
+      - ./models:/models:ro
+    restart: unless-stopped
+    # GPU reservation. If the host has no NVIDIA runtime, delete this block;
+    # the app will fall back to CPU automatically.
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  frontend:
+    build: ./frontend
+    image: whisper-turbo-frontend:latest
+    container_name: whisper-frontend
+    environment:
+      BACKEND_URL: http://whisper:8000
+      API_KEY: ${API_KEY:-}
+      EXAMPLE_DIR: /assets
+    ports:
+      - "${FRONTEND_PORT:-7860}:7860"
+    volumes:
+      - ./assets:/assets:ro
+    depends_on:
+      whisper:
+        condition: service_healthy
+    restart: unless-stopped

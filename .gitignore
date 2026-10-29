@@ -1,0 +1,7 @@
+# model weights (download with ./download_model.sh)
+models/*
+!models/.gitkeep
+
+__pycache__/
+*.pyc
+.qodo/

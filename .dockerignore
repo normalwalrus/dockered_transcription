@@ -1,0 +1,8 @@
+models/
+.qodo/
+.env
+__pycache__/
+*.pyc
+.git/
+README.md
+assets/

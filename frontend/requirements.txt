@@ -1,0 +1,7 @@
+gradio==5.9.1
+httpx==0.28.1
+# gradio 5.9 breaks with pydantic >= 2.11 ("argument of type 'bool' is not iterable")
+pydantic==2.10.6
+fastapi==0.115.6
+# gradio imports requests but newer huggingface-hub no longer depends on it
+requests==2.32.3
